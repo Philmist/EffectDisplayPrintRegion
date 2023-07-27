@@ -9,6 +9,7 @@ static const float2 presetKG = float2(152f, 102f);  // KG(us, jp), 4R(us)
 static const float2 presetA4 = float2(297f, 210f);  // A4(iso)
 static const float2 presetA3 = float2(420f, 297f);  // A3(iso)
 static const float2 presetHagaki = float2(148f, 100f);  // Yu-bin Hagaki(jp)
+static const float2 presetLKGPortrait = float2(2048f, 1536f);  // Looking Glass Portrait(hologram display)[px]
 
 // Constant: Color
 
@@ -27,10 +28,10 @@ uniform float fMaskAlpha <
 uniform int iPresetSelect <
   ui_type = "combo";
   ui_label = "Paper";
-  ui_items = " L-format(3R)\0 2L-format(5R)\0 A4\0 Hagaki\0 KG(4R)\0 A3\0";
+  ui_items = " L-format(3R)\0 2L-format(5R)\0 A4\0 Hagaki\0 KG(4R)\0 A3\0 LKG-Portrait\0";
 > = 0;
 
-static const float2 sizePresets[] = {preset3R, preset5R, presetA4, presetHagaki, presetKG, presetA3};
+static const float2 sizePresets[] = {preset3R, preset5R, presetA4, presetHagaki, presetKG, presetA3, presetLKGPortrait};
 
 uniform int iOrientation <
   ui_type = "radio";
@@ -78,6 +79,7 @@ void PS_DrawRegion(in float4 pos : SV_Position, in float2 texcoord : TEXCOORD, o
   const bool2 isContain = (startTexcoord <= texcoord) && (texcoord <= endTexcoord);
   if (all(isContain)) {
     color = lerp(origColor, colorWhite, fMaskAlpha);
+    color.a = origColor.a;
   }
 }
 
