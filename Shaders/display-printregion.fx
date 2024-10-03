@@ -3,17 +3,18 @@
 
 // Constant: Size presets (Long-side, Short-side)[mm]
 
-static const float2 preset3R = float2(127f, 89f);  // L(jp), 3R(us)
-static const float2 preset5R = float2(178f, 127f);  // 2L(jp), 5R(us)
-static const float2 presetKG = float2(152f, 102f);  // KG(us, jp), 4R(us)
-static const float2 presetA4 = float2(297f, 210f);  // A4(iso)
-static const float2 presetA3 = float2(420f, 297f);  // A3(iso)
-static const float2 presetHagaki = float2(148f, 100f);  // Yu-bin Hagaki(jp)
-static const float2 presetLKGPortrait = float2(2048f, 1536f);  // Looking Glass Portrait(hologram display)[px]
+static const float2 preset3R = float2(127., 89.);  // L(jp), 3R(us)
+static const float2 preset5R = float2(178., 127.);  // 2L(jp), 5R(us)
+static const float2 presetKG = float2(152., 102.);  // KG(us, jp), 4R(us)
+static const float2 presetA4 = float2(297., 210.);  // A4(iso)
+static const float2 presetA3 = float2(420., 297.);  // A3(iso)
+static const float2 presetHagaki = float2(148., 100.);  // Yu-bin Hagaki(jp)
+static const float2 presetLKGPortrait = float2(2048., 1536.);  // Looking Glass Portrait(hologram display)[px]
+static const float2 presetLKGGo = float2(2560., 1440.);  // Looking Glass Go(hologram display)[px]
 
 // Constant: Color
 
-static const float4 colorWhite = float4(1.0f, 1.0f, 1.0f, 1.0f);
+static const float4 colorWhite = float4(1.0, 1.0, 1.0, 1.0);
 
 // UI: Options
 
@@ -28,10 +29,10 @@ uniform float fMaskAlpha <
 uniform int iPresetSelect <
   ui_type = "combo";
   ui_label = "Paper";
-  ui_items = " L-format(3R)\0 2L-format(5R)\0 A4\0 Hagaki\0 KG(4R)\0 A3\0 LKG-Portrait\0";
+  ui_items = " L-format(3R)\0 2L-format(5R)\0 A4\0 Hagaki\0 KG(4R)\0 A3\0 LKG-Portrait\0 LKG-Go\0";
 > = 0;
 
-static const float2 sizePresets[] = {preset3R, preset5R, presetA4, presetHagaki, presetKG, presetA3, presetLKGPortrait};
+static const float2 sizePresets[] = {preset3R, preset5R, presetA4, presetHagaki, presetKG, presetA3, presetLKGPortrait, presetLKGGo};
 
 uniform int iOrientation <
   ui_type = "radio";
@@ -72,8 +73,8 @@ void PS_DrawRegion(in float4 pos : SV_Position, in float2 texcoord : TEXCOORD, o
   const float screenAspectRatio = isWidthLarger ? screenSize.x / screenSize.y : screenSize.y / screenSize.x;
   const float maskAspectRatio = isWidthLarger ? maskOrigSize.x / maskOrigSize.y : maskOrigSize.y / maskOrigSize.x;
   const float deltaTexcoord = maskAspectRatio / screenAspectRatio;
-  const float2 startTexcoord = isWidthLarger ? float2((0.5f - deltaTexcoord/2), 0.0f) : float2(0.0f, (0.5f - deltaTexcoord / 2));
-  const float2 endTexcoord = isWidthLarger ? float2((0.5f + deltaTexcoord/2), 1.0f) : float2(1.0f, (0.5f + deltaTexcoord/2));
+  const float2 startTexcoord = isWidthLarger ? float2((0.5 - deltaTexcoord/2), 0.0) : float2(0.0, (0.5 - deltaTexcoord / 2));
+  const float2 endTexcoord = isWidthLarger ? float2((0.5 + deltaTexcoord/2), 1.0) : float2(1.0, (0.5 + deltaTexcoord/2));
 
   color = origColor;
   const bool2 isContain = (startTexcoord <= texcoord) && (texcoord <= endTexcoord);
